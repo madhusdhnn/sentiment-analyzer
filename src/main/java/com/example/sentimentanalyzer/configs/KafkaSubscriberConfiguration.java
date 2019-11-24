@@ -1,4 +1,4 @@
-package com.example.sentimentanalyzer;
+package com.example.sentimentanalyzer.configs;
 
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +10,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
 
@@ -34,13 +35,12 @@ public class KafkaSubscriberConfiguration {
 
     @Bean
     public DefaultKafkaConsumerFactory<String, String> consumerFactory() {
-        final HashMap<String, Object> consumerConfiguration = new HashMap<String, Object>() {{
-            put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-            put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-            put(VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-            put(GROUP_ID_CONFIG, groupId);
-            put(AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
-        }};
+        final Map<String, Object> consumerConfiguration = new HashMap<>();
+        consumerConfiguration.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        consumerConfiguration.put(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerConfiguration.put(VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        consumerConfiguration.put(GROUP_ID_CONFIG, groupId);
+        consumerConfiguration.put(AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
         return new DefaultKafkaConsumerFactory<>(consumerConfiguration);
     }
 

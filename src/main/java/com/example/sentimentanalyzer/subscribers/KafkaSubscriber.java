@@ -27,6 +27,7 @@ public class KafkaSubscriber {
     public void subscribeRawTweetTopic(String rawTweetJson) {
         TweetData tweetData = JsonUtils.safeParseJSON(objectMapper, rawTweetJson, TweetData.class);
         log.info(String.format("Received new Tweet for user %s with status id %d", tweetData.getUser().getName(), tweetData.getId()));
-        sentimentAnalyzerService.analyze(tweetData);
+        this.sentimentAnalyzerService.computeSentiment(tweetData);
     }
+
 }
