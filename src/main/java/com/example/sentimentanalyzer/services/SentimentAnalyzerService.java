@@ -47,22 +47,20 @@ public class SentimentAnalyzerService {
 
     private SentimentType findSentiment(List<CoreSentence> sentences) {
         int polarityOfTweet = 0;
-        int longest = 0;
+        int lengthOfLongestSentence = 0; // length of the longest sentence in a tweet
         for (CoreSentence sentence : sentences) {
             int polarity = RNNCoreAnnotations.getPredictedClass(sentence.sentimentTree());
-            String sentenceString = sentence.toString();
-            int sentenceStringLength = sentenceString.length();
-            if (sentenceStringLength > longest) {
+            int sentenceLength = sentence.toString().length();
+            if (sentenceLength > lengthOfLongestSentence) {
                 polarityOfTweet = polarity;
-                longest = sentenceStringLength;
+                lengthOfLongestSentence = sentenceLength;
             }
         }
         return SentimentType.fromPolarity(polarityOfTweet);
     }
 
     private String cleanTweet(String tweetData) {
-        String lowerCaseTweet = tweetData.toLowerCase();
-        return lowerCaseTweet.replaceAll(CLEAN_TWEET_REGEX, " ");
+        return tweetData.toLowerCase().replaceAll(CLEAN_TWEET_REGEX, " ");
     }
 
 }
